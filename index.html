@@ -1,0 +1,52 @@
+<html>
+<head>
+    <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script>
+    <script src="https://seikichi.github.io/tmp/PDFJS.0.8.715/pdf.min.js"></script>
+</head>
+<body>
+
+<canvas id="pdfcanvas" style="border:1px solid black"></canvas>
+<script>
+var url = 'main.pdf';
+var canvas = document.getElementById('pdfcanvas');
+var context = canvas.getContext('2d');
+PDFJS.disableWorker = true;
+PDFJS.getDocument(url).then(function(pdf) {
+  pdf.getPage(5).then(function(page) {
+    var scale = 1.5;
+    var viewport = page.getViewport(scale);
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    
+    page.render({
+      canvasContext: context,
+      viewport: viewport
+    })
+    .then(function() {
+        var bg = canvas.toDataURL("image/png");
+        var fcanvas = new fabric.Canvas("pdfcanvas", {
+            selection: false
+        });
+        fcanvas.setBackgroundImage(bg,fcanvas.renderAll.bind(fcanvas));
+        // fcanvas.setWidth(canvas.width);
+        // fcanvas.setHeight(canvas.height);
+        var rect = new fabric.Rect({
+            left: 100,
+            top: 100,
+            width: 50,
+            height: 50,
+            fill: '#FF454F',
+            opacity: 0.5,
+            transparentCorners: true,
+            borderColor: "gray",
+            cornerColor: "gray",
+            cornerSize: 5
+        });
+        fcanvas.add(rect);
+        fcanvas.renderAll();
+    });
+  });
+});
+</script>
+</body>
+</html>
