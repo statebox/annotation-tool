@@ -1,52 +1,57 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script>
-    <script src="https://seikichi.github.io/tmp/PDFJS.0.8.715/pdf.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="layout.css">
+    
+    <script src="vendor/fabric.min.js"></script>
+    <script src="vendor/pdf.min.js"></script>
+    <script src="dist/bundle.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+
 </head>
 <body>
+<div class="flexContainer flexColumn fullHeight whiteBackground">
+    <nav class="flexContainer blueBackground">
+        <ul class="nav flexItem flexStart" id="auth">
+            <!-- <input type="checkbox" checked/> Show ToC -->
+        </ul>
+        <ul class="nav flexItem flexMiddle">
+            Page: <input id="pagenr" type="number"/>
+        </ul>
+        <ul class="nav flexContainer flexEnd">
+            <!-- <span style="padding-right: 2em">Show Comments: <input type="checkbox" checked/></span> -->
+        </ul>
+    </nav>
+    <div class="flexContainer flexItem">
+        <main class="flexItem whiteBackground main">
+            <div id="firebaseui-auth-container"></div>
+            <canvas id="pdfcanvas"></canvas>
+        </main>
+        <aside class="sidebar sidebarRight">
+            <div id="toc">table of contents</div>
+        </aside>
+        <aside class="sidebar sidebarLeft">
+            <div id="comments">comments on this page</div>
+        </aside>
+    </div>
+    <footer class="flexContainer flexCenter blueBackground whiteText height50">&copy; Statebox.IO</footer>
+</div>
 
-<canvas id="pdfcanvas" style="border:1px solid black"></canvas>
 <script>
-var url = 'main.pdf';
-var canvas = document.getElementById('pdfcanvas');
-var context = canvas.getContext('2d');
-PDFJS.disableWorker = true;
-PDFJS.getDocument(url).then(function(pdf) {
-  pdf.getPage(5).then(function(page) {
-    var scale = 1.5;
-    var viewport = page.getViewport(scale);
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-    
-    page.render({
-      canvasContext: context,
-      viewport: viewport
-    })
-    .then(function() {
-        var bg = canvas.toDataURL("image/png");
-        var fcanvas = new fabric.Canvas("pdfcanvas", {
-            selection: false
-        });
-        fcanvas.setBackgroundImage(bg,fcanvas.renderAll.bind(fcanvas));
-        // fcanvas.setWidth(canvas.width);
-        // fcanvas.setHeight(canvas.height);
-        var rect = new fabric.Rect({
-            left: 100,
-            top: 100,
-            width: 50,
-            height: 50,
-            fill: '#FF454F',
-            opacity: 0.5,
-            transparentCorners: true,
-            borderColor: "gray",
-            cornerColor: "gray",
-            cornerSize: 5
-        });
-        fcanvas.add(rect);
-        fcanvas.renderAll();
-    });
-  });
-});
+    var url = 'pdfs/main.pdf';
+    var canvas = document.getElementById('pdfcanvas');
+    var toc = document.getElementById('toc');
+    var comments = document.getElementById('comments');
+    var auth = document.getElementById('auth');
+    Commenter(url, canvas, toc, comments, auth)
 </script>
 </body>
 </html>
