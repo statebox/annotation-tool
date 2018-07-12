@@ -4,54 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
     <link rel="stylesheet" href="layout.css">
-    
+    <link rel="stylesheet" href="style.css">
+
     <script src="vendor/fabric.min.js"></script>
     <script src="vendor/pdf.min.js"></script>
     <script src="dist/bundle.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
-
     <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 
+    <title>Document</title>
 </head>
 <body>
-<div class="flexContainer flexColumn fullHeight whiteBackground">
-    <nav class="flexContainer blueBackground">
-        <ul class="nav flexItem flexStart" id="auth">
-            <!-- <input type="checkbox" checked/> Show ToC -->
-        </ul>
-        <ul class="nav flexItem flexMiddle">
-            Page: <input id="pagenr" type="number"/>
-        </ul>
-        <ul class="nav flexContainer flexEnd">
-            <!-- <span style="padding-right: 2em">Show Comments: <input type="checkbox" checked/></span> -->
-        </ul>
-    </nav>
-    <div class="flexContainer flexItem">
-        <main class="flexItem whiteBackground main">
-            <div id="firebaseui-auth-container"></div>
-            <canvas id="pdfcanvas"></canvas>
-        </main>
-        <aside class="sidebar sidebarRight">
-            <div id="toc">table of contents</div>
-        </aside>
-        <aside class="sidebar sidebarLeft">
-            <div id="comments">comments on this page</div>
-        </aside>
-    </div>
-    <footer class="flexContainer flexCenter blueBackground whiteText height50">&copy; Statebox.IO</footer>
-</div>
-
-<script>
-    var url = 'pdfs/main.pdf';
-    var canvas = document.getElementById('pdfcanvas');
-    var toc = document.getElementById('toc');
-    var comments = document.getElementById('comments');
-    var auth = document.getElementById('auth');
-    Commenter(url, canvas, toc, comments, auth)
-</script>
+    <!-- <div id="main"></div> -->
+    <script>
+            // var url = 'pdfs/main.pdf';
+            // var canvas = document.getElementById('pdfcanvas');
+            // var toc = document.getElementById('toc');
+            // var comments = document.getElementById('comments');
+            // var auth = document.getElementById('auth');
+            Commenter('main')//url, canvas, toc, comments, auth)
+    </script>
 </body>
 </html>
