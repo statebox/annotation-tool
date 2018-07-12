@@ -86,13 +86,17 @@ PDFHelper.prototype.updatePage = async function (pageNumber) {
     this.bg.src = this.canvas.toDataURL("image/png")
 }
 
-PDFHelper.prototype.selectedComment = function (x, y) {
+PDFHelper.prototype.selectedComment = function (sx, sy) {
     const comments = this.pageComments(this.pageNumber)
     var i = 1;
-    for (let [cx,cy,cw,ch] of comments) {
-        if ((cx <= x) && (x <= cx + cw) && (cy <= y) && (y <= cy + ch)) {
-            return i
-        }; i++
+    for (k of comments) {
+        if (k) {
+            let {x,y,w,h} = k
+            if ((x <= sx) && (sx <= x + w) && (y <= sy) && (sy <= y + h)) {
+                return i
+            }
+        }
+        i++
     }
     return 0
 }
@@ -148,19 +152,21 @@ PDFHelper.prototype.pageComments = function (pageNumber) {
 
 PDFHelper.prototype.updateCanvas = function () {
     // draw background
-    let [w,h] = this.canvasDimensions()
-    this.context.drawImage(this.bg, 0, 0, w, h)
+    let [cw,ch] = this.canvasDimensions()
+    
+    if(this.bg)
+        this.context.drawImage(this.bg, 0, 0, cw, ch)
 
     // draw crosshair
     let [mx,my] = this.mousePosition
     this.context.beginPath()
     this.context.moveTo(mx + .5, 0)
-    this.context.lineTo(mx + .5, h)
+    this.context.lineTo(mx + .5, ch)
     this.context.stroke()
     
     this.context.beginPath()
     this.context.moveTo(0, my + .5)
-    this.context.lineTo(w, my + .5)
+    this.context.lineTo(cw, my + .5)
     this.context.stroke()
 
     // draw drag feedback
@@ -180,9 +186,14 @@ PDFHelper.prototype.updateCanvas = function () {
     if (p == this.pageNumber)
         s = z;
     
-    for (let [x,y,cw,ch] of comments) {
-        this.context.fillStyle = s == i ? 'rgba(0,180,0,0.4)' : 'rgba(0,0,0,0.4)'
-        this.context.fillRect(x,y,cw,ch)
+    console.log('x', s, z, p, this.pageNumber)
+
+    for (k of comments) {
+        if (k) {
+            let {x,y,w,h} = k
+            this.context.fillStyle = s == i ? 'rgba(0,180,0,0.4)' : 'rgba(0,0,0,0.4)'
+            this.context.fillRect(x,y,w,h)
+        }
         i++
     }
 }

@@ -1,6 +1,7 @@
 const m = require('mithril')
 const R = require('ramda')
 
+const ready = require('./ready.js')
 const Doc = require('./doc.js')
 
 const exampleDocuments = [
@@ -24,7 +25,36 @@ const delayer = (ts, fn) => new Promise((resolve, reject) => {
     }, ts)
 })
 
-module.exports = function app() {
+const firebase = require('firebase')
+const providers = [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    //   firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    //   firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    //   firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    //   firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    //   firebase.auth.PhoneAuthProvider.PROVIDER_ID
+]
+
+module.exports = async function app(eltId) {
+
+    // TODO dont monkey patch
+    await ready()
+
+    // Initialize Firebase
+    const config = {
+        apiKey: "AIzaSyDn-oqjahzC8Y_MSPRV2IykP9u6nm_BGDM",
+        authDomain: "saywat-ce50a.firebaseapp.com",
+        databaseURL: "https://saywat-ce50a.firebaseio.com",
+        projectId: "saywat-ce50a",
+        storageBucket: "",
+        messagingSenderId: "537650547693"
+    }
+
+    await firebase.initializeApp(config);
+
+    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+
+    const {Authing, SignIn} = require('./auth.js')(firebase, providers)
 
     var Document = {
         list: exampleDocuments,
@@ -115,21 +145,46 @@ module.exports = function app() {
             ])
         }
     }
-
+    
     var selected = [-1,-1]
-    const comments = {}
-    const addComment = (pageNumber, comment) => {
-        let cs = comments[pageNumber]
-        if (cs) {
-            cs.push(comment)
+    var comments = {}
+
+    var database = firebase.database();
+    var commentsFB = database.ref('comments/')
+    
+    commentsFB.on('value', function(snapshot) {
+        comments = snapshot.val() || {}
+        console.log('update', comments)
+        m.redraw()
+    });
+    
+    const addComment = function (pageNumber, comment) {
+        let [x,y,w,h] = comment
+        let c = {x,y,w,h}
+        var cs = [c]
+        if (R.has('' + pageNumber, comments)) {
+            comments[pageNumber].push(c)
         } else {
-            comments[pageNumber] = [comment]
+            comments[pageNumber] = cs
+        }
+
+        const upd = {}
+        upd[`comments/${pageNumber}`] = comments[pageNumber]
+        database.ref().update(upd).then((x,y)=>{
+            console.log('write', x, y)
+        })
+    }
+
+    const pageComments = function (pageNumber) {
+        if (R.has(pageNumber, comments)) {
+            let cs = comments[pageNumber]
+            console.log('==>', cs)
+            return cs
+        } else {
+            return []
         }
     }
-    const pageComments = (pageNumber) => {
-        let cs = comments[pageNumber]
-        return cs ? cs : []
-    }
+
     const selectComment = (pageNumber, selection) => selected = [pageNumber, selection]
     const selectedComment = () => selected
 
@@ -166,23 +221,30 @@ module.exports = function app() {
                     ],
                     vnode.attrs.revision ? [m("span", ` » ${vnode.attrs.revision}`)] : []
                 )),
+                m(Authing),
                 m("section", vnode.children)
             ])
         }
     }
 
+    const root = document.getElementById(eltId)
     m.route.prefix('#')
-    m.route(document.body, "/list", {
+    m.route(root, "/list", {
+        "/login/do": {
+            render: function () {
+                return m(SignIn)
+            }
+        },
         "/list": {
             render: function () {
                 return m(Layout, m(DocumentList))
             }
         },
         "/edit/:revision/:page": {
-            render: function (vnode) {
+        render: function (vnode) {
                 return m(Layout, vnode.attrs, m(DocumentForm, vnode.attrs))
             }
         }
     })
-
 }
+
