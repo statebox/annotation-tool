@@ -1,7 +1,7 @@
 const R = require('ramda')
 
 function PDFHelper () {
-    this.scale = 1.5
+    this.scale = 1.2
     this.curPage = null
     this.dragState = null
     this.comments = {}
@@ -186,8 +186,6 @@ PDFHelper.prototype.updateCanvas = function () {
     if (p == this.pageNumber)
         s = z;
     
-    console.log('x', s, z, p, this.pageNumber)
-
     for (k of comments) {
         if (k) {
             let {x,y,w,h} = k
