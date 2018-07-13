@@ -1,4 +1,4 @@
 node_modules
 venv
-pdfs
-dist/bundle.js
+public/pdfs
+public/bundle.js

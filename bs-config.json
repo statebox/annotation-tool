@@ -1,0 +1,8 @@
+{
+    "port": 8786,
+    "files": [
+        "./app/**/*.{html,css,js}",
+        "./public/*.{html,css,js}"
+    ],
+    "server": { "baseDir": "./public" }
+}
