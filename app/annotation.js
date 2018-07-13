@@ -10,7 +10,7 @@ var Annotations = {
         const canvas = vnode.dom
         await pdf.init(
             canvas,
-            'pdfs/main.pdf',
+            'https://arxiv.org/pdf/1805.05988.pdf',
             Comments.addComment,
             Comments.pageComments,
             Comments.selectComment,
