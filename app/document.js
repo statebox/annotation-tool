@@ -5,13 +5,13 @@ const R = require('ramda')
 const exampleDocuments = [
     {
         revision: 'c4a29add5ee31e49031650e5c610a2de3bf76eaa',
-        url: 'pfds/main.pdf',
-        totalPages: 46
+        url: 'https://arxiv.org/pdf/1805.05988.pdf',
+        totalPages: 18
     },
     {
         revision: '7d5d9651e2b4b2fefa52772a86c160c86c10f4f0',
-        url: 'pfds/main.pdf',
-        totalPages: 60
+        url: 'pdfs/main.pdf',
+        totalPages: 18
     }
 ]
 
