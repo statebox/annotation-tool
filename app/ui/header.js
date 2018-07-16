@@ -4,13 +4,8 @@ const R = require('ramda')
 const Documents = require('../documents.js')
 const Pager = require('./pager.js')
 
+const Revision = require('./revision.js')
 const FBUI = require('./fbui.js')
-
-function revision (revision) {
-    let r = R.slice(0, 10, revision) + '⋯'
-    return m("span.revision", r)
-}
-
 
 module.exports = {
     oninit: function (vnode) {
@@ -28,22 +23,10 @@ module.exports = {
             )
         }
 
-        const rev = m(".menu", R.concat(
-            [
-                m("a", {
-                    href: '/list',
-                    oncreate: m.route.link
-                }, "Revisions")
-            ],
-            vnode.attrs.revision ? [m("span", ` » `), revision(vnode.attrs.revision)] : []
-        ))
-
-        const au = m(FBUI)
-
         return m(".flexContainer.blueBackground",[
-            m(".flexItem.flexStart", au),
+            m(".flexItem.flexStart", m(FBUI)),
             m(".flexMain.flexMiddle", pager),
-            m(".flexItem.flexEnd", rev)
+            m(".flexItem.flexEnd", m(Revision, vnode.attrs))
         ])
     }
 }
