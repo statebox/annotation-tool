@@ -1,10 +1,10 @@
 const m = require('mithril')
-const stream = require('mithril/stream')
 const R = require('ramda')
 
 const TOC = require('./toc.js')
 const Header = require('./header.js')
 const Annotations = require('./annotation.js')
+
 const Comments = require('./comments.js')
 
 const CommentBox = require('./commentbox.js')
@@ -14,12 +14,11 @@ const CommentBox = require('./commentbox.js')
 //     toc: require('../toc.json')
 // }
 
-
-var Comment = {
+    var Comment = {
     view: function () {
         return m('div.comments', [
             m('div', JSON.stringify(Comments.selectedComment())),
-            m(CommentBox )
+            m(CommentBox)
         ])
     }
 }
