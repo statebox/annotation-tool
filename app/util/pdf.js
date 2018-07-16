@@ -50,6 +50,12 @@ PDFHelper.prototype.updatePage = async function (pageNumber) {
     
     // load page
     this.pageNumber = pageNumber
+
+    // check if loading was okay
+    if(!this.pdf) {
+        console.error('cannot update page, PDF failed to load')
+        return
+    }
     
     const page = await this.pdf.getPage(this.pageNumber)
 
@@ -154,6 +160,13 @@ PDFHelper.prototype.updateCanvas = function () {
     // draw background
     let [cw,ch] = this.canvasDimensions()
     
+    // check if loading was okay
+    if(!this.context) {
+        console.error('cannot update canvas, something failed during initialization')
+        return
+    }
+
+
     if(this.bg)
         this.context.drawImage(this.bg, 0, 0, cw, ch)
 
