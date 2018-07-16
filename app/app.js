@@ -1,22 +1,21 @@
 const m = require('mithril')
 const R = require('ramda')
 
-const ready = require('./ready.js')
+const ready = require('./util/ready.js')
 
 module.exports = async function app(eltId) {
     
     // wait for document to load
     await ready()
     
-    const Layout = require('./layout.js')
-    const UI = require('./ui.js')
-    const DocumentList = require('./documentlist.js')
+    const Layout = require('./ui/layout.js')
+    const DocumentList = require('./ui/documentlist.js')
 
-    const TOC = require('./toc.js')
-    const Annotations = require('./annotation.js')
+    const ToC = require('./ui/toc.js')
+    const Annotations = require('./ui/annotation.js')
 
     const Comments = require('./comments.js')
-    const CommentBox = require('./commentbox.js')
+    const CommentBox = require('./ui/commentbox.js')
 
     var Comment = {
         view: function () {
@@ -41,7 +40,7 @@ module.exports = async function app(eltId) {
                 return m(Layout, vnode.attrs, [
                     m('aside.sidebar.sidebarLeft', m(Comment)),
                     m('main.flexItem.main', m(Annotations, vnode.attrs)),
-                    m('aside.sidebar.sidebarRight', m(TOC, vnode.attrs))
+                    m('aside.sidebar.sidebarRight', m(ToC, vnode.attrs))
                 ])
             }
         }

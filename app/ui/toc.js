@@ -1,7 +1,7 @@
 const m = require('mithril')
 const R = require('ramda')
 
-const toc = require('../toc.json')
+const toc = require('../../toc.json')
 
 var TOC = {
     view: function (vnode) {

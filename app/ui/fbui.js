@@ -1,5 +1,5 @@
 const m = require('mithril')
-const Firebase = require('./firebase.js')
+const Firebase = require('../util/firebase.js')
 
 
 const displayNone = {style: {display: 'none'}}

@@ -23,7 +23,7 @@ const delayer = (ts, fn) => new Promise((resolve, reject) => {
     }, ts)
 })
 
-var Document = {
+var Documents = {
     list: exampleDocuments,
     loadList: function () {
         // return m.request({
@@ -40,7 +40,7 @@ var Document = {
     load: function (revision) {
         console.log('loading', revision)
         return delayer(1000, () => {
-            Document.current = R.head(R.filter(R.propEq('revision', revision), Document.list))
+            Documents.current = R.head(R.filter(R.propEq('revision', revision), Documents.list))
         })
 
         // return m.request({
@@ -63,4 +63,4 @@ var Document = {
     }
 }
 
-module.exports = Document
+module.exports = Documents

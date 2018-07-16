@@ -5,7 +5,7 @@ const R = require('ramda')
 var selected = [-1,-1]
 var comments = {}
 
-const Firebase = require('./firebase.js')
+const Firebase = require('./util/firebase.js')
 
 async function init () {
     const db = await Firebase.database()

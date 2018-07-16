@@ -1,7 +1,7 @@
 const m = require('mithril')
 const R = require('ramda')
 
-const Document = require('./document.js')
+const Documents = require('../documents.js')
 const Pager = require('./pager.js')
 
 const FBUI = require('./fbui.js')
@@ -14,17 +14,17 @@ function revision (revision) {
 
 module.exports = {
     oninit: function (vnode) {
-        Document.load(vnode.attrs.revision)
+        Documents.load(vnode.attrs.revision)
     },
     view: function (vnode) {
         
         var pager = m('div', '-')
-        if(vnode.attrs.revision && Document.current.totalPages) {
+        if(vnode.attrs.revision && Documents.current.totalPages) {
             pager = Pager(
                 vnode.attrs.revision,
                 vnode.attrs.page,
                 vnode.attrs.selectedComment,
-                Document.current.totalPages
+                Documents.current.totalPages
             )
         }
 
@@ -40,14 +40,10 @@ module.exports = {
 
         const au = m(FBUI)
 
-        // return pager
-
-        // const pager = m('div', JSON.stringify(Document.current))
-        return m(".flexContainer.blueBackground",
-            [
-                m(".flexItem.flexStart", au),
-                m(".flexMain.flexMiddle", pager),
-                m(".flexItem.flexEnd", rev)
-            ])
+        return m(".flexContainer.blueBackground",[
+            m(".flexItem.flexStart", au),
+            m(".flexMain.flexMiddle", pager),
+            m(".flexItem.flexEnd", rev)
+        ])
     }
 }

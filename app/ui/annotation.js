@@ -1,7 +1,7 @@
 const m = require('mithril')
 
-const Comments = require('./comments.js')
-const PDFHelper = require('./pdf.js')
+const Comments = require('../comments.js')
+const PDFHelper = require('../util/pdf.js')
 
 const pdf = new PDFHelper()
 var Annotations = {
