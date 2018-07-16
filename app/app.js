@@ -1,60 +1,48 @@
 const m = require('mithril')
 const R = require('ramda')
 
-const firebase = require('firebase')
-
 const ready = require('./ready.js')
 
 module.exports = async function app(eltId) {
-
-    // TODO dont monkey patch
+    
+    // wait for document to load
     await ready()
-
-    // Initialize Firebase
-    const config = {
-        apiKey: "AIzaSyDn-oqjahzC8Y_MSPRV2IykP9u6nm_BGDM",
-        authDomain: "saywat-ce50a.firebaseapp.com",
-        databaseURL: "https://saywat-ce50a.firebaseio.com",
-        projectId: "saywat-ce50a",
-        storageBucket: "",
-        messagingSenderId: "537650547693"
-    }
-
-    await firebase.initializeApp(config);
-
-    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-
-    const Document = require('./document.js')
+    
+    const Layout = require('./layout.js')
     const UI = require('./ui.js')
-    const {SignIn} = require('./auth.js')
+    const DocumentList = require('./documentlist.js')
 
-    var DocumentList = {
-        oninit: Document.loadList,
+    const TOC = require('./toc.js')
+    const Annotations = require('./annotation.js')
+
+    const Comments = require('./comments.js')
+    const CommentBox = require('./commentbox.js')
+
+    var Comment = {
         view: function () {
-            return m(".user-list", Document.list.map(function (user) {
-                return m("a.user-list-item", { href: `/edit/${user.revision}/1`, oncreate: m.route.link },
-                    m('code', user.revision)
-                )
-            }))
+            return m('div.comments', [
+                m('div', JSON.stringify(Comments.selectedComment())),
+                m(CommentBox)
+            ])
         }
     }
 
     const root = document.getElementById(eltId)
+    
     m.route.prefix('#')
     m.route(root, "/list", {
-        "/login/do": {
-            render: function () {
-                return m(SignIn)
-            }
-        },
         "/list": {
             render: function () {
-                return m(DocumentList)
+                return m(Layout, m(DocumentList))
             }
         },
-        "/edit/:revision/:page": {
+        "/edit/:revision/:page/:selectedComment": {
         render: function (vnode) {
-                return m(UI, vnode.attrs)
+                return m(Layout, vnode.attrs, [
+                    m('aside.sidebar.sidebarLeft', m(Comment)),
+                    m('main.flexItem.main', m(Annotations, vnode.attrs)),
+                    m('aside.sidebar.sidebarRight', m(TOC, vnode.attrs))
+                ])
             }
         }
     })

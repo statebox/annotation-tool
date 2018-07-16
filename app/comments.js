@@ -1,19 +1,21 @@
-const firebase = require('firebase')
+// const firebase = require('firebase')
 const m = require('mithril')
 const R = require('ramda')
 
 var selected = [-1,-1]
 var comments = {}
 
-var database = firebase.database();
-var commentsFB = database.ref('comments/')
+const Firebase = require('./firebase.js')
 
-commentsFB.on('value', function(snapshot) {
-    comments = snapshot.val() || {}
-    m.redraw()
-});
+async function init () {
+    const db = await Firebase.database()
+    db.ref('comments/').on('value', function(snapshot) {
+        comments = snapshot.val() || {}
+        m.redraw()
+    })
+}
 
-const addComment = function (pageNumber, comment) {
+const addComment = async function (pageNumber, comment) {
     let [x,y,w,h] = comment
     let c = {x,y,w,h}
     var cs = [c]
@@ -26,6 +28,8 @@ const addComment = function (pageNumber, comment) {
 
     const upd = {}
     upd[`comments/${pageNumber}`] = comments[pageNumber]
+    
+    const database = await Firebase.database()
     database.ref().update(upd).then(() => {
         selected = [pageNumber, comments[pageNumber].length]
         m.redraw()
@@ -47,5 +51,7 @@ const selectComment = (pageNumber, selection) => {
 }
 
 const selectedComment = () => selected
+
+init()
 
 module.exports = {addComment,pageComments,selectComment,selectedComment}
