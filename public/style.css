@@ -2,9 +2,18 @@ body,.input,.button {font:normal 16px Verdana;margin: 20px}
 
 /* .layout {margin:10px auto;max-width:1000px;} */
 
-.user-list {list-style:none;margin:0 0 10px;padding:0;}
+/* .user-list {list-style:none;margin:0 0 10px;padding:0;}
 .user-list-item {background:#fafafa;border:1px solid #ddd;color:#333;display:block;margin:0 0 1px;padding:8px 15px;text-decoration:none;}
-.user-list-item:hover {text-decoration:underline;}
+.user-list-item:hover {text-decoration:underline;} */
+
+.revision-list {list-style:none;margin:0 0 10px;padding:0;}
+.revision-list-item {background:#fafafa;border:1px solid #ddd;color:#333;display:block;margin:0 0 1px;padding:8px 15px;text-decoration:none;}
+.revision-list-item:hover {text-decoration:underline;}
+.revision-list-item .timestamp {
+    padding-right: 2em;
+}
+
+
 
 .label {display:block;margin:0 0 5px;}
 .input {border:1px solid #ddd;border-radius:3px;box-sizing:border-box;display:block;margin:0 0 10px;padding:10px 15px;width:100%;}
@@ -89,4 +98,14 @@ body {
 
 footer {
     padding: 2px;
+}
+
+.documents-list div {
+    display: inline-block;
+    padding: 2em;
+    margin: 2em;
+    width: 150px;
+    height: 200px;
+    border: 1px solid black;
+    background: #aaa; 
 }

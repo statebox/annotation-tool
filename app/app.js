@@ -3,14 +3,22 @@ const R = require('ramda')
 
 const ready = require('./util/ready.js')
 
-module.exports = async function app(eltId) {
+module.exports = {
+    State: require('./state.js'),
+    start: start
+}
+
+async function start (eltId) {
     
     // wait for document to load
     await ready()
     
     const Layout = require('./ui/layout.js')
     const DocumentList = require('./ui/documentlist.js')
+    const RevisionsList = require('./ui/revisionslist.js')
 
+    const Pager = require('./ui/pager.js')
+    
     const ToC = require('./ui/toc.js')
     const Annotations = require('./ui/annotation.js')
 
@@ -29,20 +37,34 @@ module.exports = async function app(eltId) {
     const root = document.getElementById(eltId)
     
     m.route.prefix('#')
-    m.route(root, "/list", {
-        "/list": {
-            render: function () {
-                return m(Layout, m(DocumentList))
+    m.route(root, "/documents", {
+        "/documents": {
+            render: function (vnode) {
+                return m(Layout, vnode.attrs,
+                    m(DocumentList, vnode.attrs)
+                )
             }
         },
-        "/edit/:revision/:page/:selectedComment": {
-        render: function (vnode) {
+        "/documents/:slug": {
+            render: function (vnode) {
+                return m(Layout, vnode.attrs,
+                    m(RevisionsList, vnode.attrs)
+                )
+            }
+        },
+        "/documents/:slug/:revision/:page/:selectedComment": {
+            render: function (vnode) {
                 return m(Layout, vnode.attrs, [
-                    m('aside.sidebar.sidebarLeft', m(Comment)),
-                    m('main.flexItem.main', m(Annotations, vnode.attrs)),
+                    m('aside.sidebar.sidebarLeft', m(Comment, vnode.attrs)),
+                    m('main.flexItem.main', [
+                        m(Pager, vnode.attrs),
+                        m(Annotations, vnode.attrs)
+                    ]),
                     m('aside.sidebar.sidebarRight', m(ToC, vnode.attrs))
                 ])
             }
         }
     })
 }
+
+

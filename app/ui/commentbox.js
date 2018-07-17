@@ -9,19 +9,15 @@ function setHeight(domNode) {
     domNode.style.height = `${domNode.scrollHeight}px`;
 }
 
+// ![](https://media.giphy.com/media/l3UcrZHrGW2CjHXqM/giphy.gif)
+
 const example = `Type some *markdown* here!
 
-![](https://media.giphy.com/media/l3UcrZHrGW2CjHXqM/giphy.gif)
+This supports $\\KaTeX$ math, such as
 
-so looking the the equation:
-
-$\\Sigma_2 \\mapsto \\int_x^a$
-
-It seems that it should be:
-
-$f(x) = 234$
-
-_oh yeah_
+$$
+\\tau_i : \\mathcal{M}^\\mathbb{Z}_P \\rightarrow \\mathcal{M}^\\mathbb{Z}_P
+$$
 `
   
 function Textarea() {

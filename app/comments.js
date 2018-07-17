@@ -2,10 +2,9 @@
 const m = require('mithril')
 const R = require('ramda')
 
-var selected = [-1,-1]
-var comments = {}
-
 const Firebase = require('./util/firebase.js')
+
+const State = require('./state.js')
 
 async function init () {
     const db = await Firebase.database()
@@ -31,8 +30,8 @@ const addComment = async function (pageNumber, comment) {
     
     const database = await Firebase.database()
     database.ref().update(upd).then(() => {
-        selected = [pageNumber, comments[pageNumber].length]
-        m.redraw()
+        let x = comments[pageNumber].length
+        selectComment(pageNumber, x)
         console.log('comment stored in firebase')
     })
 }
@@ -45,12 +44,16 @@ const pageComments = function (pageNumber) {
     }
 }
 
-const selectComment = (pageNumber, selection) => {
-    selected = [pageNumber, selection]
-    m.redraw()
+const selectComment = (pageNumber, selection) => {    
+    m.route.set('/documents/:slug/:revision/:page/:selectedComment', {
+        slug: State.document().slug,
+        revision: State.revision().revision,
+        page: pageNumber,
+        selectedComment: [pageNumber, selection]
+    })
 }
 
-const selectedComment = () => selected
+const selectedComment = () => State.selection().comment
 
 init()
 
