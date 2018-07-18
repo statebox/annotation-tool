@@ -11,7 +11,7 @@ var TOC = {
 
         const line = ({title,level,page}) => m('a', {
             class: 'toc-entry',
-            href: `/documents/${slug}/${rev}/${page + 1}/0,0`,
+            href: `/documents/${slug}/${rev}/${parseInt(page) + 1}/0,0`,
             style: `padding-left: ${(level - 1) * 16}px`,
             oncreate: m.route.link
         }, title)
