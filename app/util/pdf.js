@@ -1,7 +1,7 @@
 const R = require('ramda')
 
 function PDFHelper () {
-    this.scale = 1.2
+    this.scale = 1.4
     this.curPage = null
     this.dragState = null
     this.comments = {}
