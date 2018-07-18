@@ -5,8 +5,13 @@ const ready = require('./util/ready.js')
 
 module.exports = {
     State: require('./state.js'),
+    Comments: require('./comments.js'),
+    R: require('ramda'),
+    m: require('mithril'),
     start: start
 }
+
+const State = module.exports.State
 
 async function start (eltId) {
     
@@ -27,8 +32,14 @@ async function start (eltId) {
 
     var Comment = {
         view: function () {
+            let [page, comment] = State.comment().comment || [0,0]
             return m('div.comments', [
-                m('div', JSON.stringify(Comments.selectedComment())),
+                m('div', [
+                    m('span.page-pre', 'page: '), m('span.page',page),
+                    m('span.split', ' — '),
+                    m('span.comment-pre', 'comment: '), m('span.comment', comment)
+                ]),
+                m('hr'),
                 m(CommentBox)
             ])
         }
@@ -52,7 +63,7 @@ async function start (eltId) {
                 )
             }
         },
-        "/documents/:slug/:revision/:page/:selectedComment": {
+        "/documents/:slug/:revision/:page/:comment": {
             render: function (vnode) {
                 return m(Layout, vnode.attrs, [
                     m('aside.sidebar.sidebarLeft', m(Comment, vnode.attrs)),

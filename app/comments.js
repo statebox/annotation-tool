@@ -37,11 +37,7 @@ const addComment = async function (pageNumber, comment) {
 }
 
 const pageComments = function (pageNumber) {
-    if (R.has(pageNumber, comments)) {
-        return comments[pageNumber]
-    } else {
-        return []
-    }
+    return R.filter(({comment}) => R.equals(comment[0], pageNumber), State.comments())
 }
 
 const selectComment = (pageNumber, selection) => {    
@@ -53,7 +49,7 @@ const selectComment = (pageNumber, selection) => {
     })
 }
 
-const selectedComment = () => State.selection().comment
+const selectedComment = () => State.comment().comment || [0,0]
 
 init()
 

@@ -21,11 +21,6 @@ const UserDisplay = {
         else
         {
             return m('code#firebase-user',  user.email)
-            // return m('div#firebase-user', JSON.stringify({
-            //     uid: user.uid,
-            //     email: user.email,
-            //     photoUrl: user.photoUrl
-            // }))
         }
     }
 }

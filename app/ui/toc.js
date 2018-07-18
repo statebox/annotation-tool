@@ -15,9 +15,9 @@ var TOC = {
         const toc = State.revision().toc ? State.revision().toc : []
 
         return m('div', {class: 'tocTree'}, [
-            m('pre', {style: {fontSize: '0.8em'}}, `ref: ${vnode.attrs.revision}`),
             m('h3', 'Table of Contents'),
-            m('div.tocTree', R.map(line, toc))
+            m('div.tocTree', R.map(line, toc)),
+            m('pre', {style: {fontSize: '0.8em'}}, `ref: ${vnode.attrs.revision}`)
         ])
     }
 }

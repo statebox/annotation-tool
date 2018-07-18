@@ -19,26 +19,42 @@ $$
 \\tau_i : \\mathcal{M}^\\mathbb{Z}_P \\rightarrow \\mathcal{M}^\\mathbb{Z}_P
 $$
 `
-  
-function Textarea() {
+
+function MarkdownComment () {
+
     const value = stream(example)
     const markdown = value.map(md.render.bind(md))
+    
+    function Textarea () {
+        return {
+            oncreate({ dom }) {
+                value.map(() => setHeight(dom))
+            },
+            view() {
+                return m('textarea', {
+                        style: 'width: 100%',
+                        value: value(),
+                        placeholder: 'Enter some text',
+                        oninput: m.withAttr('value', value)
+                    })
+            }
+        }
+    }
+
     return {
-        oncreate({ dom }) {
-            value.map(() => setHeight(dom))
-        },
         view() {
-            return [
-                m('textarea', {
-                    style: 'width: 100%',
-                    value: value(),
-                    placeholder: 'Enter some text',
-                    oninput: m.withAttr('value', value)
-                }),
-                m('div', m.trust(markdown()))
-            ]
+            return m('.markdown-comment', [
+                    m('div', m.trust(markdown())),
+                    m('hr'),
+                    m(Textarea),
+                    m('hr'),
+                    m('.buttons', [
+                        m('button', 'delete'),
+                        m('button', 'save')
+                    ])
+            ])
         }
     }
 }
 
-module.exports = Textarea
+module.exports = MarkdownComment

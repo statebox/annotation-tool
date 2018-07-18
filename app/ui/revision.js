@@ -11,6 +11,11 @@ function revision (revision) {
 
 module.exports = {
     view: (vnode) => {
+ 
+        const docs = m("a", {
+            onclick: () => m.route.set('/documents/')
+        }, "Documents")
+
         const slug = State.document().slug
         const slugDOM = slug ? [m("span", ` » `), m("a", {
             onclick: () => m.route.set('/documents/:slug', {
@@ -20,11 +25,8 @@ module.exports = {
 
         const rev = State.revision().revision
         const revDOM = rev ? [m("span", ` » `), rev] : []
-
-        const docs = m("a", {
-            onclick: () => m.route.set('/documents/')
-        }, "Documents")
-
-        return m(".menu", R.flatten([docs, slugDOM, revDOM]))
+        
+        const elems = R.flatten([docs, slugDOM, revDOM])
+        return m('div.path', elems)
     }
 }

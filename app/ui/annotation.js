@@ -20,7 +20,7 @@ var Annotations = {
         await this.onupdate(vnode)
     },
     onupdate: async function(vnode) {
-        const p = State.selection().page
+        const p = State.page()
         await pdf.updatePage(p)
         await pdf.updateCanvas()
     },

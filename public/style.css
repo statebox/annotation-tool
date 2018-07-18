@@ -1,4 +1,6 @@
-body,.input,.button {font:normal 16px Verdana;margin: 20px}
+body,.input,.button {
+    font:normal 16px Verdana; margin: 20px
+}
 
 /* .layout {margin:10px auto;max-width:1000px;} */
 
@@ -108,4 +110,35 @@ footer {
     height: 200px;
     border: 1px solid black;
     background: #aaa; 
+}
+
+.markdown-comment textarea {
+    font-family: 'Input Mono', monospace;
+}
+
+.debug {
+    background: rgba(200,0,0,0.2);
+    position: absolute;
+    bottom: 0px;
+    padding: 6;
+}
+
+button {
+    padding: 3px;
+    margin: 2px;
+    background-color: purple;
+    border-color: plum;
+    color: white;
+    font-family: 'Input Mono', monospace;
+    border-style: inset;
+    border-width: 0.4em;
+    font-weight: bold;
+}
+
+.path, .fbui {
+    display: inline-block;
+}
+
+.fbui {
+    padding-right: 2em;
 }

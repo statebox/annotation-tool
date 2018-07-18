@@ -9,7 +9,6 @@ const parseSelectedComment = R.compose(R.map(parseInt), R.split(','))
 
 // returns x if x is not equal to y, false otherwise
 const if_changed = (x, y) => {
-    console.log(x,y)
     return (x && R.not(R.equals(y,x))) ? x : false
 }
 
@@ -29,40 +28,48 @@ async function updateStores (props) {
         await State.set_revision(props.revision)
     }
 
-    // set current selection
-    let curPage = State.selection().page
+    // set page
+    let curPage = State.page()
     let newPage = (props.page && parseInt(props.page)) || 0
     let page = if_changed(newPage, curPage)
-    
-    let curComment = State.selection().comment
-    let newComment = (props.selectedComment && parseSelectedComment(props.selectedComment)) || [0,0]
-    let comment = if_changed(newComment, curComment)
-    
-    if (page || comment) {
-        let p = page || curPage
-        let q = comment || curComment
-        await State.set_selection(p, q)
+    if (page) {
+        await State.set_page(page)
     }
 
-    if(slug || revision || page || comment)
+    // set comment
+    let curComment = State.comment().comment || [0,0]
+    let newComment = (props.comment && parseSelectedComment(props.comment)) || [0,0]
+    var comment = false
+    if (newComment[0] !== curComment[0] || newComment[1] !== curComment[1]) {
+        comment = newComment
+    }
+    
+    if(comment) {
+        await State.set_comment((comment !== [0,0]) ? comment : undefined)
+    }
+
+    if(slug || revision || page || comment) {
+        console.log('>>>>>>>>>>>', !!slug , !!revision , !!page , !!comment)
         m.redraw()
+    }
 }
 
 var debug = false
 var Layout = {
-    oninit: (vnode) => updateStores(vnode.attrs),
+    oncreate: (vnode) => updateStores(vnode.attrs),
     onupdate: (vnode) => updateStores(vnode.attrs),
     view: (vnode) => {
-        let c = State.selection().comment
+        let c = State.comment()
         return m(".flexContainer.flexColumn.fullHeight", [
             m(Header, vnode.attrs),
-            m('div', {onclick: () => debug = !debug}, debug ? 'hide debug' : 'show debug'),
+            m('div.debug', {onclick: () => debug = !debug}, debug ? 'hide debug' : 'show debug'),
             m('pre.debug', {style: {display: debug ? 'block' : 'none'}, wrap:true}, JSON.stringify({
                 count: `${State.documents().length} docs, ${State.revisions().length} revisions`,
                 revision: R.omit(['toc'], State.revision()),
                 document: State.document().slug,
-                page: State.selection().page,
-                comment: `page ${c && c[0]}, comment ${c && c[1]}`
+                page: State.page(),
+                comment: State.comment(),
+                attrs: vnode.attrs
             }, null, 2)),
             m('.flexContainer.flexItem', vnode.children)
         ])
