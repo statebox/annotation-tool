@@ -6,23 +6,34 @@ const PDFHelper = require('../util/pdf.js')
 const Comments = require('../comments.js')
 
 const pdf = new PDFHelper()
+
+var inited = false
+
 var Annotations = {
     oncreate: async function (vnode) {
-        const canvas = vnode.dom
-        await pdf.init(
-            canvas,
-            'pdfs/main.pdf',
-            Comments.addComment,
-            Comments.pageComments,
-            Comments.selectComment,
-            Comments.selectedComment
-        )
         await this.onupdate(vnode)
     },
     onupdate: async function(vnode) {
-        const p = State.page()
-        await pdf.updatePage(p)
-        await pdf.updateCanvas()
+        const canvas = vnode.dom
+        const url = State.revision().url
+        
+        if (url) {
+            if (!inited) {
+                console.log('lading:', url)
+                await pdf.init(
+                    canvas,
+                    url,
+                    Comments.addComment,
+                    Comments.pageComments,
+                    Comments.selectComment,
+                    Comments.selectedComment
+                )
+            }
+            
+            const p = State.page()
+            await pdf.updatePage(p)
+            await pdf.updateCanvas()
+        }
     },
     view: function(vnode) {
         return m('canvas')
