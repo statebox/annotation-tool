@@ -6,18 +6,22 @@ const State = require('../state.js')
 var TOC = {
     view: function (vnode) {
         
+        let slug = State.document().slug
+        let rev = State.revision().revision
+
         const line = ({title,level,page}) => m('a', {
             class: 'toc-entry',
-            href: `#/edit/${vnode.attrs.revision}/${page}`,
-            style: `padding-left: ${(level - 1) * 16}px`
+            href: `/documents/${slug}/${rev}/${page}/0,0`,
+            style: `padding-left: ${(level - 1) * 16}px`,
+            oncreate: m.route.link
         }, title)
-        
+
         const toc = State.revision().toc ? State.revision().toc : []
 
-        return m('div', {class: 'tocTree'}, [
+        return m('div.table-of-contents', [
             m('h3', 'Table of Contents'),
             m('div.tocTree', R.map(line, toc)),
-            m('pre', {style: {fontSize: '0.8em'}}, `ref: ${vnode.attrs.revision}`)
+            m('pre', `ref: ${vnode.attrs.revision}`)
         ])
     }
 }
