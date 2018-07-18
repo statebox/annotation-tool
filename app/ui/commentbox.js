@@ -1,6 +1,8 @@
 const m = require('mithril')
 const stream = require('mithril/stream')
 
+const Firebase = require('../util/firebase.js')
+
 const State = require('../state.js')
 
 const md = require('markdown-it')()
@@ -75,7 +77,7 @@ function MarkdownComment () {
 
     return {
         view() {
-            const f = () => {
+            const f = async () => {
                 let c = State.comment().comment
                 // TODO add firebase security rule
                 if(c && c[0] === 0 || c[1] === 0) {
@@ -83,8 +85,11 @@ function MarkdownComment () {
                     return
                 }
 
-                State.add_comment_to_thread(subject.valueOf().trim(), value.valueOf().trim())
+                await State.add_comment_to_thread(subject.valueOf().trim(), value.valueOf().trim())
                 console.log('sav', value.valueOf())
+                subject('')
+                value('')
+                m.redraw()
             }
             return m('.markdown-comment', [
                 m('h4', subject()),
@@ -93,7 +98,7 @@ function MarkdownComment () {
                 m(Subject),
                 m(Textarea),
                 m('.buttons', [
-                    m('button', {onclick: f}, 'save')
+                    Firebase.user ? m('button', {onclick: f}, 'save') : m('p','log in first')
                 ])
             ])
         },
