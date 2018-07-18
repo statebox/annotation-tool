@@ -12,14 +12,6 @@ const exampleDocuments = [
 // using a rawgit url is not possible because the gh repo is private
 // url: 'https://github.com/statebox/monograph/raw/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
 // url: 'https://cdn.rawgit.com/statebox/monograph/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
-    
-
-const monographRevisions = [{
-    revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
-    url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
-    toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
-    totalPages: 79
-}]
 
 // const qplRevisions = [
 //     {
@@ -29,12 +21,19 @@ const monographRevisions = [{
 //         totalPages: 18,
 //         toc: toc
 //     }
-// ]
+// ]    
+
+const monographRevisions = [{
+    revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
+    url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
+    toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
+    totalPages: 79
+}]
+
 
 const loaded = {
   comments: []
 }
-
 
 const current = {
     document: {},
@@ -52,12 +51,12 @@ const revisions = () => monographRevisions // all revs for slug
 // transform comments
 // {"k":[{x,y,w,h}]} |--> [{comment:[k,i],x,y,w,h}]
 const mapIndexed = R.addIndex(R.map)
+const addComment = k => (d,i) => R.assoc('comment', [parseInt(k), (i+1)], d)
+const g = cs => R.flatten(R.map(k => mapIndexed(addComment(k), cs[k]), R.keys(cs)))
 // const addComment = k => (d,i) => R.compose(
 //     R.assoc('comment', i),
 //     R.assoc('page', parseInt(k))
 //   )(d)
-const addComment = k => (d,i) => R.assoc('comment', [parseInt(k), i], d)
-const g = cs => R.flatten(R.map(k => mapIndexed(addComment(k), cs[k]), R.keys(cs)))
 
 // all comments for /slug/rev/page
 // let exComments = g(exampleComments)
@@ -140,7 +139,7 @@ const add_comment_to_thread = async (subject, markdown) => {
     const slug = current.document.slug
     const rev = current.revision.revision
     const [page, commentNr] = current.comment.comment
-    const key = `comments/${slug}/${rev}/${page}/${commentNr}`
+    const key = `comments/${slug}/${rev}/${page}/${commentNr - 1}`
     const upd = {}
     upd[key] = current.comment
     
