@@ -18,14 +18,15 @@ const exampleRevisions = [
         url: 'https://arxiv.org/pdf/1805.05988.pdf',
         totalPages: 18,
         toc: toc
-    },
-    {
-        timestamp: '2018-07-16T23:32:44+00:00',
-        revision: '7d5d9651e2b4b2fefa52772a86c160c86c10f4f0',
-        url: 'pdfs/main.pdf',
-        totalPages: 18,
-        toc: toc
     }
+    // ,
+    // {
+    //     timestamp: '2018-07-16T23:32:44+00:00',
+    //     revision: '7d5d9651e2b4b2fefa52772a86c160c86c10f4f0',
+    //     url: 'pdfs/main.pdf',
+    //     totalPages: 18,
+    //     toc: toc
+    // }
 ]
 
 const loaded = {
@@ -94,6 +95,10 @@ async function subscribeToComments (slug, revision) {
     
     // transform to the right format
     loaded.comments = g(comments)
+    
+    // update comments
+    set_comment(current.comment.comment)
+
     console.log('transformed to right format', loaded.comments)
     m.redraw()
   })
@@ -122,10 +127,32 @@ const set_comment = (c) => {
     console.log('$($($($($($', comment(), current.comment, c)
 }
 
+const add_comment_to_thread = async (subject, markdown) => {
+    const timestamp = new Date().toISOString()
+    const author = Firebase.user.email
+    const msg = {timestamp, author, subject, markdown}
+    current.comment.comments = current.comment.comments || []
+    current.comment.comments.push(msg)
+
+    // do firebase update
+    const slug = current.document.slug
+    const rev = current.revision.revision
+    const [page, commentNr] = current.comment.comment
+    const key = `comments/${slug}/${rev}/${page}/${commentNr}`
+    const upd = {}
+    upd[key] = current.comment
+    
+    console.log(upd)
+    const database = await Firebase.database()
+    await database.ref().update(upd)
+    console.log('comment stored in firebase', page, commentNr)
+}
+
 module.exports = {
     init,
     document, documents, set_document,
     revision, revisions, set_revision,
     comments, comment, set_comment,
-    page, set_page
+    page, set_page,
+    add_comment_to_thread
 }

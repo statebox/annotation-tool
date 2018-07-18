@@ -12,13 +12,13 @@
 
 ![](docs/auth.png)
 
-### Annotation Tool
-
-![](annotation.png)
-
 ### Debugging Window
 
-![](debug.png)
+![](docs/debug.png)
+
+### Annotation Tool
+
+![](docs/annotation.png)
 
 # Usage
 

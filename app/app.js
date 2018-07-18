@@ -26,24 +26,7 @@ async function start (eltId) {
     
     const ToC = require('./ui/toc.js')
     const Annotations = require('./ui/annotation.js')
-
-    const Comments = require('./comments.js')
-    const CommentBox = require('./ui/commentbox.js')
-
-    var Comment = {
-        view: function () {
-            let [page, comment] = State.comment().comment || [0,0]
-            return m('div.comments', [
-                m('div', [
-                    m('span.page-pre', 'page: '), m('span.page',page),
-                    m('span.split', ' — '),
-                    m('span.comment-pre', 'comment: '), m('span.comment', comment)
-                ]),
-                m('hr'),
-                m(CommentBox)
-            ])
-        }
-    }
+    const LeftPanel = require('./ui/leftpanel.js')
 
     const root = document.getElementById(eltId)
     
@@ -66,12 +49,17 @@ async function start (eltId) {
         "/documents/:slug/:revision/:page/:comment": {
             render: function (vnode) {
                 return m(Layout, vnode.attrs, [
-                    m('aside.sidebar.sidebarLeft', m(Comment, vnode.attrs)),
+                    // left
+                    m('aside.sidebar.sidebarLeft',
+                        m(LeftPanel, vnode.attrs)),
+                    // center
                     m('main.flexItem.main', [
                         m(Pager, vnode.attrs),
                         m(Annotations, vnode.attrs)
                     ]),
-                    m('aside.sidebar.sidebarRight', m(ToC, vnode.attrs))
+                    // right
+                    m('aside.sidebar.sidebarRight',
+                        m(ToC, vnode.attrs))
                 ])
             }
         }
