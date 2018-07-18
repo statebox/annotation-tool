@@ -1,4 +1,4 @@
-const State = require('../State.js')
+const State = require('../state.js')
 const m = require('mithril')
 
 var DocumentList = {
