@@ -16,8 +16,8 @@ const exampleDocuments = [
 
 const monographRevisions = [{
     revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
-    url: 'pdfs/main-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
-    toc: require('../public/pdfs/main-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
+    url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
+    toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
     totalPages: 79
 }]
 
