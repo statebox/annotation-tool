@@ -24,6 +24,7 @@ const exampleDocuments = [
 // ]    
 
 const monographRevisions = [{
+    timestamp: '2018-07-16T00:00:00+00:00',
     revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
     url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
     toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
