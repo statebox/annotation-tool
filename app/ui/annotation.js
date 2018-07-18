@@ -29,10 +29,11 @@ var Annotations = {
                     Comments.selectedComment
                 )
             }
-            
-            const p = State.page()
-            await pdf.updatePage(p)
-            await pdf.updateCanvas()
+            if(inited) {
+                const p = State.page()
+                await pdf.updatePage(p)
+                await pdf.updateCanvas()    
+            }
         }
     },
     view: function(vnode) {
