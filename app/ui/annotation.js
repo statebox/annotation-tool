@@ -28,6 +28,7 @@ var Annotations = {
                     Comments.selectComment,
                     Comments.selectedComment
                 )
+                inited = true
             }
             if(inited) {
                 const p = State.page()
