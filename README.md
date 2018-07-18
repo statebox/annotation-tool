@@ -1,12 +1,42 @@
-# annotation tool for monograph
+# Online annotation tool for PDFs
 
-![](screenshot.png)
+### Supports Multiple Documents
 
+![](docs/overview.png)
 
-# toc
+### Supports Multiple Revisions
 
-uses https://github.com/euske/pdfminer
+![](docs/revisions.png)
+
+### Firebase E-mail Authentication
+
+![](docs/auth.png)
+
+### Annotation Tool
+
+![](annotation.png)
+
+### Debugging Window
+
+![](debug.png)
+
+# Usage
+
+## Installation
+
+Git clone and then
+
+        npm install
+
+## Run server
+
+Start auto reloading development server
+
+        npm run dev
+
+## Generaring Table of Contents
+
+Uses https://github.com/euske/pdfminer
 
         dumppdf.py -T pdfs/main.pdf > toc.xmlish
-        node outline.js < toc.xmlish > toc.json
-
+        node scripts/outline.js < toc.xmlish > toc.json
