@@ -7,33 +7,34 @@ const Firebase = require('./util/firebase.js')
 const State = require('./state.js')
 
 async function init () {
-    const db = await Firebase.database()
-    db.ref('comments/').on('value', function(snapshot) {
-        comments = snapshot.val() || {}
-        m.redraw()
-    })
 }
 
 const addComment = async function (pageNumber, comment) {
-    let [x,y,w,h] = comment
-    let c = {x,y,w,h}
-    var cs = [c]
-    if (R.has('' + pageNumber, comments)) {
-        comments[pageNumber].push(c)
-    } else {
-        comments[pageNumber] = cs
-    }
-    m.redraw()
+    let rev = State.revision().revision
+    let slug = State.document().slug
 
+    var comments = pageComments(pageNumber)
+
+    // get the integer screen coordinates
+    let [x,y,w,h] = R.map(Math.floor, comment)
+    let c = {x,y,w,h}
+    
+    // add the comment identifier
+    const id = comments.length + 1
+    c.comment = [pageNumber, id]
+    
+    // append it to get our new value
+    comments.push(c)
+    
+    // do firebase update
     const upd = {}
-    upd[`comments/${pageNumber}`] = comments[pageNumber]
+    upd[`comments/${slug}/${rev}/${pageNumber}`] = comments
     
     const database = await Firebase.database()
-    database.ref().update(upd).then(() => {
-        let x = comments[pageNumber].length
-        selectComment(pageNumber, x)
-        console.log('comment stored in firebase')
-    })
+    await database.ref().update(upd)
+    console.log('comment stored in firebase', pageNumber, id)
+
+    selectComment(pageNumber, id)
 }
 
 const pageComments = function (pageNumber) {
@@ -41,6 +42,7 @@ const pageComments = function (pageNumber) {
 }
 
 const selectComment = (pageNumber, selection) => {    
+    console.log('CLIKCED COMMENS', pageNumber, selection)
     m.route.set('/documents/:slug/:revision/:page/:selectedComment', {
         slug: State.document().slug,
         revision: State.revision().revision,

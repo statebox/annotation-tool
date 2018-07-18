@@ -1,5 +1,6 @@
 const R = require('ramda')
 const toc = require('../toc.json')
+const m = require("mithril")
 
 const exampleDocuments = [
     {
@@ -27,105 +28,10 @@ const exampleRevisions = [
     }
 ]
 
-const exampleComments = {
-    "1" : [ {
-      "h" : 117,
-      "w" : 498,
-      "x" : 127.40625,
-      "y" : 228
-    }, {
-      "h" : 809,
-      "w" : 2,
-      "x" : 447.625,
-      "y" : 0
-    } ],
-    "2" : [ {
-      "h" : 255,
-      "w" : 312,
-      "x" : 87.625,
-      "y" : 177
-    } ],
-    "3" : [ {
-      "h" : 69,
-      "w" : 154,
-      "x" : 101.40625,
-      "y" : 172
-    } ],
-    "4" : [ {
-      "h" : 38,
-      "w" : 191,
-      "x" : 90.875,
-      "y" : 220
-    }, {
-      "h" : 42,
-      "w" : 145,
-      "x" : 95.875,
-      "y" : 457
-    } ],
-    "6" : [ {
-      "h" : 143,
-      "w" : 176,
-      "x" : 276.40625,
-      "y" : 546
-    }, {
-      "h" : 40,
-      "w" : 20,
-      "x" : 285.40625,
-      "y" : 248
-    }, {
-      "h" : 43,
-      "w" : 68,
-      "x" : 410.40625,
-      "y" : 103
-    }, {
-      "h" : 71,
-      "w" : 71,
-      "x" : 470.40625,
-      "y" : 287
-    }, {
-      "h" : 97,
-      "w" : 89,
-      "x" : 130.40625,
-      "y" : 371
-    } ],
-    "15" : [ {
-      "h" : 0,
-      "w" : 0,
-      "x" : 403.40625,
-      "y" : 528
-    }, {
-      "h" : 91,
-      "w" : 236,
-      "x" : 250.40625,
-      "y" : 493
-    } ],
-    "NaN" : [ {
-      "h" : 0,
-      "w" : 0,
-      "x" : 242.40625,
-      "y" : 230
-    }, {
-      "h" : 0,
-      "w" : 0,
-      "x" : 408.40625,
-      "y" : 557
-    }, {
-      "h" : 95,
-      "w" : 216,
-      "x" : 257.40625,
-      "y" : 489
-    }, {
-      "h" : 0,
-      "w" : 0,
-      "x" : 637.40625,
-      "y" : 561
-    } ]
-  }
-  
-
-const exampleSelection = {
-    comment: [4, 3]
+const loaded = {
+  comments: []
 }
+
 
 const current = {
     document: {},
@@ -151,8 +57,8 @@ const addComment = k => (d,i) => R.assoc('comment', [parseInt(k), i], d)
 const g = cs => R.flatten(R.map(k => mapIndexed(addComment(k), cs[k]), R.keys(cs)))
 
 // all comments for /slug/rev/page
-let exComments = g(exampleComments)
-const comments = () => exComments 
+// let exComments = g(exampleComments)
+const comments = () => loaded.comments
 
 const document = () => current.document // all slugs
 const revision = () => current.revision
@@ -164,11 +70,41 @@ const f = (prop, val, list) => R.head(R.filter(R.propEq(prop, val), list)) || {}
 const set_document = async (slug) => {
     console.log(`$$$: SET DOCUMENT: ${slug}`)
     current.document = f('slug', slug, documents())
+    loaded.comments = []
 }
+
+const Firebase = require('./util/firebase.js')
+
+var commentsListenerReference
+
+async function subscribeToComments (slug, revision) {
+  const db = await Firebase.database()
+  
+  // unsubscribe to updates
+  if (commentsListenerReference)
+    await commentsListenerReference.off()
+
+  // subscribe to updates
+  let refpath = `comments/${slug}/${revision}`
+  console.log('firebase listening to updates on', refpath)
+  commentsListenerReference = db.ref(refpath)
+  commentsListenerReference.on('value', function(snapshot) {
+    const comments = snapshot.val() || {}
+    console.log('received comments update from firebase', comments)
+    
+    // transform to the right format
+    loaded.comments = g(comments)
+    console.log('transformed to right format', loaded.comments)
+    m.redraw()
+  })
+}
+
 
 const set_revision = async (revision) => {
     console.log(`$$$: SET REVISION: ${revision}`)
     current.revision = f('revision', revision, revisions())
+    loaded.comments = []
+    subscribeToComments(current.document.slug, current.revision.revision)
 }
 
 const set_page = (page) => {
@@ -178,7 +114,12 @@ const set_page = (page) => {
 
 const set_comment = (c) => {
     console.log(`$$$: SET COMMENT ${JSON.stringify(c)}`)
+    console.log('[[[[[[[[[[[[[[[', comments())
+    current.comment = f('comment', c, comments())
+    console.log('}}}}}}}}}}}}}}}', current.comment)
     current.comment.comment = c
+    // const z = R.filter(cc => cc.comment[0]-1===c[0] && cc.comment[1]===c[1], comments())
+    console.log('$($($($($($', comment(), current.comment, c)
 }
 
 module.exports = {

@@ -69,7 +69,8 @@ var Layout = {
                 document: State.document().slug,
                 page: State.page(),
                 comment: State.comment(),
-                attrs: vnode.attrs
+                attrs: vnode.attrs,
+                comments: State.comments().length
             }, null, 2)),
             m('.flexContainer.flexItem', vnode.children)
         ])
