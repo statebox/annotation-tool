@@ -2,32 +2,35 @@ const R = require('ramda')
 const toc = require('../toc.json')
 const m = require("mithril")
 
+
 const exampleDocuments = [
     {
         slug: 'monograph'
-    },
-    {
-        slug: 'qpl-2018'
-    }
-]
-
-const exampleRevisions = [
-    {
-        timestamp: '2018-07-16T23:32:12+00:00',
-        revision: 'c4a29add5ee31e49031650e5c610a2de3bf76eaa',
-        url: 'https://arxiv.org/pdf/1805.05988.pdf',
-        totalPages: 18,
-        toc: toc
     }
     // ,
     // {
-    //     timestamp: '2018-07-16T23:32:44+00:00',
-    //     revision: '7d5d9651e2b4b2fefa52772a86c160c86c10f4f0',
-    //     url: 'pdfs/main.pdf',
-    //     totalPages: 18,
-    //     toc: toc
+    //     slug: 'qpl-2018'
     // }
 ]
+
+const monographRevisions = [{
+    revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
+    // url: 'https://github.com/statebox/monograph/raw/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
+    // url: 'https://cdn.rawgit.com/statebox/monograph/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
+    url: 'pdfs/main-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
+    totalPages: 79,
+    toc: toc
+}]
+
+// const qplRevisions = [
+//     {
+//         timestamp: '2018-05-18T10:02:13+00:00',
+//         revision: 'v2',
+//         url: 'https://arxiv.org/pdf/1805.05988.pdf',
+//         totalPages: 18,
+//         toc: toc
+//     }
+// ]
 
 const loaded = {
   comments: []
@@ -45,7 +48,7 @@ const init = async () => {
 }
 
 const documents = () => exampleDocuments
-const revisions = () => exampleRevisions // all revs for slug
+const revisions = () => monographRevisions // all revs for slug
 
 // transform comments
 // {"k":[{x,y,w,h}]} |--> [{comment:[k,i],x,y,w,h}]

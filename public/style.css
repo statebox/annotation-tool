@@ -7,6 +7,9 @@ body,
 
 
 /* Revisions */
+#revisions {
+    padding: 2em;
+}
 
 .revision-list {
     list-style: none;
