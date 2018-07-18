@@ -1,5 +1,5 @@
 const R = require('ramda')
-const toc = require('../toc.json')
+
 const m = require("mithril")
 
 
@@ -7,19 +7,18 @@ const exampleDocuments = [
     {
         slug: 'monograph'
     }
-    // ,
-    // {
-    //     slug: 'qpl-2018'
-    // }
 ]
+
+// using a rawgit url is not possible because the gh repo is private
+// url: 'https://github.com/statebox/monograph/raw/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
+// url: 'https://cdn.rawgit.com/statebox/monograph/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
+    
 
 const monographRevisions = [{
     revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
-    // url: 'https://github.com/statebox/monograph/raw/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
-    // url: 'https://cdn.rawgit.com/statebox/monograph/32588f68459f1076c84775c8fcdc7d6cd73387b3/build/main.pdf',
     url: 'pdfs/main-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
-    totalPages: 79,
-    toc: toc
+    toc: require('../public/pdfs/main-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
+    totalPages: 79
 }]
 
 // const qplRevisions = [
