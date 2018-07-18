@@ -91,16 +91,17 @@ function MarkdownComment () {
                 value('')
                 m.redraw()
             }
-            return m('.markdown-comment', [
-                m('h4', subject()),
-                m('div', m.trust(markdown())),
-                m('hr'),
-                m(Subject),
-                m(Textarea),
-                m('.buttons', [
-                    Firebase.user ? m('button', {onclick: f}, 'save') : m('p','log in first')
-                ])
-            ])
+            return m('.markdown-comment',
+                Firebase.user ? [
+                    m('h4', subject()),
+                    m('div', m.trust(markdown())),
+                    m('hr'),
+                    m(Subject),
+                    m(Textarea),
+                    m('.buttons', [
+                        m('button', {onclick: f}, 'save')
+                    ])
+                ] : m('p','First login to comment'))
         },
         value() {
             value.valueOf()

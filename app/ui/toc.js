@@ -19,7 +19,7 @@ var TOC = {
         const toc = State.revision().toc ? State.revision().toc : []
 
         return m('div.table-of-contents', [
-            m('h3', 'Table of Contents'),
+            m('h2', 'Table of Contents'),
             m('div.tocTree', R.map(line, toc)),
             m('pre', `ref: ${vnode.attrs.revision}`)
         ])

@@ -248,3 +248,20 @@ button {
 .comment img, .markdown-comment img {
     width: 100%;
 }
+
+.sidebar,.main {
+    scroll-behavior: auto;
+    overflow: scroll;
+}
+
+.all-comments div {
+    border: 1px solid burlywood;
+    background-color: bisque;
+    padding: 6px;
+    margin: 2px;
+}
+
+.all-comments div a {
+    color: black;
+    text-decoration: none;
+}
