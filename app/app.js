@@ -21,8 +21,6 @@ async function start (eltId) {
     const Layout = require('./ui/layout.js')
     const DocumentList = require('./ui/documentlist.js')
     const RevisionsList = require('./ui/revisionslist.js')
-
-    const Pager = require('./ui/pager.js')
     
     const ToC = require('./ui/toc.js')
     const Annotations = require('./ui/annotation.js')
@@ -54,7 +52,6 @@ async function start (eltId) {
                         m(LeftPanel, vnode.attrs)),
                     // center
                     m('main.flexItem.main', [
-                        m(Pager, vnode.attrs),
                         m(Annotations, vnode.attrs)
                     ]),
                     // right

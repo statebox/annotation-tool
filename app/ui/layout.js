@@ -60,7 +60,7 @@ var Layout = {
     onupdate: (vnode) => updateStores(vnode.attrs),
     view: (vnode) => {
         let c = State.comment()
-        return m(".flexContainer.flexColumn.fullHeight", [
+        return m(".layout-div.flexContainer.flexColumn.fullHeight", [
             m(Header, vnode.attrs),
             m('div.debug', {onclick: () => debug = !debug}, debug ? 'hide debug' : 'show debug'),
             m('pre.debug', {style: {display: debug ? 'block' : 'none'}, wrap:true}, JSON.stringify({

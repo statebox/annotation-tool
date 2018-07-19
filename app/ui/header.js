@@ -1,5 +1,6 @@
 const m = require('mithril')
 const Revision = require('./revision.js')
+const Pager = require('./pager.js')
 
 // UI
 const FirebaseUI = require('./fbui.js')
@@ -8,7 +9,8 @@ module.exports = {
         return m(".flexContainer.blueBackground",[
             m(".flexItem.flexStart", [
                 m(FirebaseUI),
-                m(Revision, vnode.attrs)
+                m(Revision, vnode.attrs),
+                m(Pager, vnode.attrs),
             ])
         ])
     }

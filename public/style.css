@@ -182,22 +182,14 @@ button {
     font-weight: bold;
 }
 
-.path {
+/* .path {
     font-family: monospace;
     font-weight: bold;
 }
 .path a {
     text-decoration: underline;
-}
+} */
 
-.path,
-.fbui {
-    display: inline-block;
-}
-
-.fbui {
-    padding-right: 2em;
-}
 
 .markdown-comment {
     padding: 4px;
@@ -264,4 +256,16 @@ button {
 .all-comments div a {
     color: black;
     text-decoration: none;
+}
+
+.path,
+.fbui,
+.pager {
+    display: inline-block;
+    padding-right: 2em;
+}
+
+.path a {
+    text-decoration: underline;
+    color: blue;
 }
