@@ -41,7 +41,7 @@ const mkc = c => m('li',
     m('u'))
 
 const f = c => `/documents/${State.document().slug}/${State.revision().revision}/${c.comment[0]}/${c.comment[0]},${c.comment[1]}`
-const g = c => `pg ${c.comment[0]}, remark ${c.comment[1]}: ${c.comments[0].subject}`
+const g = c => `pg ${c.comment[0]}, remark ${c.comment[1]}: ${c.comments ? c.comments[0].subject : 'Untitled'}`
 
 var AllComments = {
     view: () => {
