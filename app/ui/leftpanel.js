@@ -57,6 +57,8 @@ var AllComments = {
     }
 }
 
+var showCommentBox = false
+
 var Comment = {
     view: function () {
         let c = State.comment().comment
@@ -72,7 +74,8 @@ var Comment = {
                     m('hr'),
                     m(Thread),
                     m('hr'),
-                    m(CommentBox)
+                    showCommentBox ? m(CommentBox) : m('button', {onclick: () => { showCommentBox = !showCommentBox; m.redraw() }}, 'reply'),
+                    showCommentBox ? m('button', {onclick: () => {showCommentBox = false; m.redraw()}}, 'cancel') : m('.hide','')
                 ]
                 : m('div',[
                     m('p', 'click on a box to select a thread add drag a new box to add a thread'),
