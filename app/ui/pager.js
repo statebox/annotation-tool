@@ -29,7 +29,7 @@ var Pager = {
         const prev = m('button', mkL(prevPage), '«««')
         const next = m('button', mkL(nextPage), '»»»')
         const current = m('span', ` ${currentPage} / ${totalPages} `)
-        return m('div', { class: 'pager' }, [prev, current, next])
+        return m('div', { class: 'pager' }, page ? [prev, current, next] : [])
     }
 }
 
