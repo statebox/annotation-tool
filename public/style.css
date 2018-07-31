@@ -35,6 +35,15 @@ body,
     padding-right: 2em;
 }
 
+.revision-list-item .revision {
+    padding-right: 2em;
+}
+
+.revision-list-item .to-comments {
+    padding-right: 2em;
+}
+
+
 .label {
     display: block;
     margin: 0 0 5px;
