@@ -78,7 +78,10 @@ var Comment = {
                     showCommentBox ? m('button', {onclick: () => {showCommentBox = false; m.redraw()}}, 'cancel') : m('.hide','')
                 ]
                 : m('div',[
-                    m('p', 'click on a box to select a thread add drag a new box to add a thread'),
+                    m('p', [
+                        'Click on a box to select a thread. Drag a new box on the page to create a new comment thread.',
+                        m('b', 'Note that login is required to add comments.')
+                    ]),
                     m(AllComments)
                 ])
             )])
