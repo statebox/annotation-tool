@@ -1,8 +1,10 @@
+const argv = require('minimist')(process.argv.slice(2));
+
 const R = require('ramda')
 const fs = require('fs')
 const cheerio = require('cheerio')
 
-const str = fs.readFileSync('./outline.xmlish')
+const str = fs.readFileSync(argv.i)
 const $ = cheerio.load(str, {xmlMode: true})
 
 const outlines = $('outlines > outline')
@@ -21,4 +23,6 @@ const toc = R.zipWith(
     s1, titles
 )
 
-fs.writeFileSync('toc.json', JSON.stringify(toc))
+const out = JSON.stringify(toc)
+if (argv.o) { fs.writeFileSync(argv.o, out) }
+else console.log(out);

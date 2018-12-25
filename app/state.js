@@ -29,6 +29,13 @@ const monographRevisions = [{
     url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
     toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
     totalPages: 79
+},
+{
+    timestamp: '2018-12-25T00:00:00+00:00',
+    revision: 'c4b244be683b8d23948cdcea420a84bd08299faa',
+    url: 'pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.pdf',
+    toc: require('../public/pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.toc.json'),
+    totalPages: 91
 }]
 
 
