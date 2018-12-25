@@ -80,6 +80,7 @@ body,
 body {
     padding: 0;
     margin: 0;
+    background-color: #eee;
 }
 
 .flexStart {
@@ -164,8 +165,9 @@ footer {
     margin: 2em;
     width: 150px;
     height: 200px;
-    border: 1px solid black;
-    background: #aaa;
+    border: 1px solid #aaa;
+    background: #fff;
+    cursor: pointer;
 }
 
 .markdown-comment textarea {
