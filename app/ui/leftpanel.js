@@ -52,7 +52,7 @@ var AllComments = {
                     href: f(c),
                     oncreate: m.route.link
                 }, g(c))
-            ]), comments)
+            ]), R.filter(c => (c.w && c.h) || c.comments, comments))
         )
     }
 }

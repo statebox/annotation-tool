@@ -95,10 +95,13 @@ PDFHelper.prototype.updatePage = async function (pageNumber) {
 PDFHelper.prototype.selectedComment = function (sx, sy) {
     const comments = this.pageComments(this.pageNumber)
     var i = 1;
+    function between(l, x, h) {
+        return l > h ? between(h, x, l) : l <= x && x <= h;
+    }
     for (k of comments) {
         if (k) {
             let {x,y,w,h} = k
-            if ((x <= sx) && (sx <= x + w) && (y <= sy) && (sy <= y + h)) {
+            if (between(x, sx, x + w) && between(y, sy, y + h)) {
                 return i
             }
         }
@@ -116,7 +119,9 @@ PDFHelper.prototype.updateDragState = function (evt) {
 
     // mouse release after drag
     if ((drag !== null) && (evt.buttons === 0)) {
-        this.addPageComment(this.pageNumber, [x0, y0, w, h])
+        if (w && h) {
+            this.addPageComment(this.pageNumber, [x0, y0, w, h])
+        }
         this.dragState = null
     }
 
