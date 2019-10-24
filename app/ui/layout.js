@@ -72,7 +72,7 @@ var Layout = {
                 attrs: vnode.attrs,
                 comments: State.comments().length
             }, null, 2)),
-            m('.flexContainer.flexItem', vnode.children)
+            m('.flexContainer.flexItem.noOverflow', vnode.children)
         ])
     }
 }

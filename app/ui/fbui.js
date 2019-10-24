@@ -7,7 +7,7 @@ const displayNone = {style: {display: 'none'}}
 const FirebaseUI = {
     view: function () {
         const attrs = Firebase.showingUI ? {} : displayNone
-        return m(`div${Firebase.elementSelector}`, attrs, 'firebase ui will be rendered here')
+        return m(`div.dialog${Firebase.elementSelector}`, attrs)
     }
 }
 

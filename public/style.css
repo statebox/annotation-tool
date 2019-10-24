@@ -124,6 +124,10 @@ body {
     height: 100vh;
 }
 
+.noOverflow {
+    overflow: hidden;
+}
+
 .main {
     overflow: hidden;
     order: 2;
@@ -131,6 +135,11 @@ body {
     margin: 0;
     border-left: 1px solid #777777;
     border-right: 1px solid #777777;
+    text-align: center;
+    padding: 30px;
+}
+.main canvas {
+    box-shadow: 0 0 20px rgba(0,0,0,.3);
 }
 
 .sidebar {
@@ -257,14 +266,12 @@ button {
     overflow: scroll;
 }
 
-.all-comments div {
+.all-comments div a {
+    display: block;
     border: 1px solid burlywood;
     background-color: bisque;
     padding: 6px;
     margin: 2px;
-}
-
-.all-comments div a {
     color: black;
     text-decoration: none;
 }
@@ -279,4 +286,19 @@ button {
 .path a {
     text-decoration: underline;
     color: blue;
+}
+
+.fbui {
+    min-width: 22%;
+}
+
+.dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.8);
+    display: flex;
+    align-items: center;
 }
