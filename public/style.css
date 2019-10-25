@@ -5,6 +5,13 @@ body,
     margin: 20px
 }
 
+a {
+    color: #096196;
+}
+a:visited {
+    color: purple;
+}
+
 
 /* Revisions */
 #revisions {
@@ -200,6 +207,7 @@ button {
     border-style: inset;
     border-width: 0.4em;
     font-weight: bold;
+    vertical-align: middle;
 }
 
 /* .path {
@@ -283,9 +291,12 @@ button {
     padding-right: 2em;
 }
 
+.path {
+    vertical-align: middle;
+}
 .path a {
     text-decoration: underline;
-    color: blue;
+    color: #096196;
 }
 
 .fbui {

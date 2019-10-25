@@ -5,7 +5,7 @@ function PDFHelper () {
     this.curPage = null
     this.dragState = null
     this.comments = {}
-    this.mousePosition = [0,0]
+    this.mousePosition = null
     this.pageNumber = 0
 }
 
@@ -25,6 +25,7 @@ PDFHelper.prototype.init = async function (canvas, url, addComment, pageComments
     this.canvas.addEventListener('mousemove', handler, false)
     this.canvas.addEventListener('mouseup', handler, false)
     this.canvas.addEventListener('mousedown', handler, false)
+    this.canvas.addEventListener('mouseleave', () => { this.mousePosition = null; this.updateCanvas() }, false)
 }
 
 // get the dimensions of the canvas
@@ -176,16 +177,18 @@ PDFHelper.prototype.updateCanvas = function () {
         this.context.drawImage(this.bg, 0, 0, cw, ch)
 
     // draw crosshair
-    let [mx,my] = this.mousePosition
-    this.context.beginPath()
-    this.context.moveTo(mx + .5, 0)
-    this.context.lineTo(mx + .5, ch)
-    this.context.stroke()
-    
-    this.context.beginPath()
-    this.context.moveTo(0, my + .5)
-    this.context.lineTo(cw, my + .5)
-    this.context.stroke()
+    if (this.mousePosition) {
+        let [mx,my] = this.mousePosition
+        this.context.beginPath()
+        this.context.moveTo(mx + .5, 0)
+        this.context.lineTo(mx + .5, ch)
+        this.context.stroke()
+        
+        this.context.beginPath()
+        this.context.moveTo(0, my + .5)
+        this.context.lineTo(cw, my + .5)
+        this.context.stroke()
+    }
 
     // draw drag feedback
     if (this.dragState) {
