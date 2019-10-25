@@ -37,6 +37,10 @@ var Annotations = {
             }
         }
     },
+    onremove: function() {
+        // Hack to support switching documents
+        document.location.reload()
+    },
     view: function(vnode) {
         return m('canvas')
     }
