@@ -145,8 +145,18 @@ body {
     text-align: center;
     padding: 30px;
 }
+.main::before {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 130px;
+    text-align: center;
+    content: "Loading...";
+    opacity: .3;
+}
 .main canvas {
     box-shadow: 0 0 20px rgba(0,0,0,.3);
+    position: relative;
 }
 
 .sidebar {
