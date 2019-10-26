@@ -28,7 +28,7 @@ var RevisionsList = {
                     m('a.timestamp',  attrs, prettyDate(r.timestamp)),
                     m('span', ['rev: ', m('a.revision', attrs, r.revision)]),
                     m('a.to-comments', attrs, 'click to browse online and annotate'),
-                    m('a.download-pdf', {href: r.url}, 'download PDF')
+                    m('a[download].download-pdf', {href: r.url}, 'download PDF')
                 ]
             )
         })
