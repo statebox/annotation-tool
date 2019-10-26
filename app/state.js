@@ -6,7 +6,10 @@ const m = require("mithril")
 const exampleDocuments = [
     {
         slug: 'monograph'
-    }
+    },
+    // {
+    //     slug: 'bricks'
+    // }
 ]
 
 // using a rawgit url is not possible because the gh repo is private
@@ -23,20 +26,29 @@ const exampleDocuments = [
 //     }
 // ]    
 
-const monographRevisions = [{
-    timestamp: '2018-07-16T00:00:00+00:00',
-    revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
-    url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
-    toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
-    totalPages: 79
-},
-{
-    timestamp: '2018-12-25T00:00:00+00:00',
-    revision: 'c4b244be683b8d23948cdcea420a84bd08299faa',
-    url: 'pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.pdf',
-    toc: require('../public/pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.toc.json'),
-    totalPages: 91
-}]
+const allRevisions = {
+    monograph: [{
+        timestamp: '2018-07-16T00:00:00+00:00',
+        revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
+        url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
+        toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
+        totalPages: 79
+    },
+    {
+        timestamp: '2018-12-25T00:00:00+00:00',
+        revision: 'c4b244be683b8d23948cdcea420a84bd08299faa',
+        url: 'pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.pdf',
+        toc: require('../public/pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.toc.json'),
+        totalPages: 91
+    }],
+    bricks: [{
+        timestamp: '2019-08-12T00:00:00+00:00',
+        revision: '8f66492fe49db189878fc8b58b94953810ad9d0d',
+        url: 'pdfs/bricks-8f66492fe49db189878fc8b58b94953810ad9d0d.pdf',
+        toc: require('../public/pdfs/bricks-8f66492fe49db189878fc8b58b94953810ad9d0d.toc.json'),
+        totalPages: 10
+    }]
+}
 
 
 const loaded = {
@@ -54,7 +66,7 @@ const init = async () => {
 }
 
 const documents = () => exampleDocuments
-const revisions = () => monographRevisions // all revs for slug
+const revisions = () => allRevisions[current.document.slug] || [] // all revs for slug
 
 // transform comments
 // {"k":[{x,y,w,h}]} |--> [{comment:[k,i],x,y,w,h}]

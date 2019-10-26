@@ -39,4 +39,4 @@ Start auto reloading development server
 Uses https://github.com/euske/pdfminer
 
         dumppdf.py -T pdfs/main.pdf > toc.xmlish
-        node scripts/outline.js < toc.xmlish > toc.json
+        node scripts/outline.js --i toc.xmlish --o toc.json
