@@ -26,6 +26,19 @@ PDFHelper.prototype.init = async function (canvas, url, addComment, pageComments
     this.canvas.addEventListener('mouseup', handler, false)
     this.canvas.addEventListener('mousedown', handler, false)
     this.canvas.addEventListener('mouseleave', () => { this.mousePosition = null; this.updateCanvas() }, false)
+
+    const flattenToc = async (items, level) => R.unnest(await Promise.all(R.map(item => tocItem(item, level), items)))
+    const tocItem = async ({dest, title, items}, level) => {
+        const destination = await this.pdf.getDestination(dest)
+        const page = await this.pdf.getPageIndex(destination[0])
+        return [
+            { title, level, page },
+            ...await flattenToc(items, level + 1)
+        ]
+    }
+
+    const outline = await this.pdf.getOutline() || []
+    return await flattenToc(outline, 1)
 }
 
 // get the dimensions of the canvas

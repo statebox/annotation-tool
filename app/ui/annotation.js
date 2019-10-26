@@ -20,7 +20,7 @@ var Annotations = {
         if (url) {
             if (!inited) {
                 console.log('lading:', url)
-                await pdf.init(
+                const toc = await pdf.init(
                     canvas,
                     url,
                     Comments.addComment,
@@ -28,6 +28,7 @@ var Annotations = {
                     Comments.selectComment,
                     Comments.selectedComment
                 )
+                State.set_toc(toc)
                 inited = true
             }
             if(inited) {

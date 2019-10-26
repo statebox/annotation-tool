@@ -16,11 +16,11 @@ var TOC = {
             oncreate: m.route.link
         }, title)
 
-        const toc = State.revision().toc ? State.revision().toc : []
+        const toc = State.toc()
 
         return m('div.table-of-contents', [
             m('h2', 'Table of Contents'),
-            m('div.tocTree', R.map(line, toc)),
+            m('div.tocTree', toc.length ? R.map(line, toc) : 'No table of contents found'),
             m('pre', `ref: ${vnode.attrs.revision}`)
         ])
     }

@@ -10,7 +10,7 @@ var DocumentList = {
                 }
             }
             return m("div.documents-list-item", attrs,
-                m('code', doc.slug)
+                m('code', doc.title)
             )
         })
 

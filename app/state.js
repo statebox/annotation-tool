@@ -5,11 +5,13 @@ const m = require("mithril")
 
 const exampleDocuments = [
     {
-        slug: 'monograph'
+        slug: 'monograph',
+        title: 'The Mathematical Specification of the Statebox language'
     },
-    // {
-    //     slug: 'bricks'
-    // }
+    {
+        slug: 'bricks',
+        title: 'Foundations of brick diagrams'
+    }
 ]
 
 // using a rawgit url is not possible because the gh repo is private
@@ -31,22 +33,19 @@ const allRevisions = {
         timestamp: '2018-07-16T00:00:00+00:00',
         revision: '32588f68459f1076c84775c8fcdc7d6cd73387b3',
         url: 'pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.pdf',
-        toc: require('../public/pdfs/monograph-32588f68459f1076c84775c8fcdc7d6cd73387b3.toc.json'),
         totalPages: 79
     },
     {
         timestamp: '2018-12-25T00:00:00+00:00',
         revision: 'c4b244be683b8d23948cdcea420a84bd08299faa',
         url: 'pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.pdf',
-        toc: require('../public/pdfs/monograph-c4b244be683b8d23948cdcea420a84bd08299faa.toc.json'),
         totalPages: 91
     }],
     bricks: [{
-        timestamp: '2019-08-12T00:00:00+00:00',
-        revision: '8f66492fe49db189878fc8b58b94953810ad9d0d',
-        url: 'pdfs/bricks-8f66492fe49db189878fc8b58b94953810ad9d0d.pdf',
-        toc: require('../public/pdfs/bricks-8f66492fe49db189878fc8b58b94953810ad9d0d.toc.json'),
-        totalPages: 10
+        timestamp: '2019-08-28T00:00:00+00:00',
+        revision: '1908.10660',
+        url: 'pdfs/bricks-1908.10660.pdf',
+        totalPages: 12
     }]
 }
 
@@ -59,7 +58,8 @@ const current = {
     document: {},
     revision: {},
     page: 0,
-    comment: {}
+    comment: {},
+    toc: [],
 }
 
 const init = async () => {
@@ -86,6 +86,7 @@ const document = () => current.document // all slugs
 const revision = () => current.revision
 const page = () => current.page
 const comment = () => current.comment
+const toc = () => current.toc
 
 const f = (prop, val, list) => R.head(R.filter(R.propEq(prop, val), list)) || {}
 
@@ -93,6 +94,11 @@ const set_document = async (slug) => {
     console.log(`$$$: SET DOCUMENT: ${slug}`)
     current.document = f('slug', slug, documents())
     loaded.comments = []
+}
+
+const set_toc = (toc) => {
+    current.toc = toc
+    m.redraw()
 }
 
 const Firebase = require('./util/firebase.js')
@@ -177,6 +183,7 @@ module.exports = {
     document, documents, set_document,
     revision, revisions, set_revision,
     comments, comment, set_comment,
+    toc, set_toc,
     page, set_page,
     add_comment_to_thread
 }

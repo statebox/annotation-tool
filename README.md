@@ -33,10 +33,3 @@ Git clone and then
 Start auto reloading development server
 
         npm run dev
-
-## Generaring Table of Contents
-
-Uses https://github.com/euske/pdfminer
-
-        dumppdf.py -T pdfs/main.pdf > toc.xmlish
-        node scripts/outline.js --i toc.xmlish --o toc.json
