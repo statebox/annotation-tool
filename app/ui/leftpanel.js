@@ -61,10 +61,15 @@ var AllComments = {
         ]), R.filter(c => (c.w && c.h) || c.comments, comments))
 
         const comments = State.comments()
+        const openComments = R.filter(c => !c.closed, comments)
+        const closedComments = R.filter(c => c.closed, comments)
         return m('div.all-comments', [
-            ...list(R.filter(c => !c.closed, comments)),
-            m('h4', 'Closed comments'),
-            ...list(R.filter(c => c.closed, comments)),
+            comments.length ? '' : 'No comments yet.',
+            list(openComments),
+            closedComments.length ? [
+                m('h4', 'Closed comments'),
+                list(),
+            ] : []
         ])
     }
 }

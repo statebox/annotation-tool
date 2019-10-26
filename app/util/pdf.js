@@ -175,6 +175,7 @@ PDFHelper.prototype.updateCanvas = function () {
 
     if(this.bg)
         this.context.drawImage(this.bg, 0, 0, cw, ch)
+    else return
 
     // draw crosshair
     if (this.mousePosition) {

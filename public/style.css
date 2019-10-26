@@ -177,6 +177,9 @@ body {
     border: none;
 }
 
+.table-of-contents pre {
+    font-size: 10px;
+}
 .toc-entry {
     display: block;
 }
