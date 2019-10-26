@@ -209,8 +209,8 @@ PDFHelper.prototype.updateCanvas = function () {
     
     for (k of comments) {
         if (k) {
-            let {x,y,w,h} = k
-            this.context.fillStyle = s == i ? 'rgba(0,180,0,0.4)' : 'rgba(0,0,0,0.4)'
+            let {x,y,w,h,closed} = k
+            this.context.fillStyle = s == i ? 'rgba(0,180,0,0.4)' : closed ? 'transparent' : 'rgba(0,0,0,0.4)'
             this.context.fillRect(x,y,w,h)
         }
         i++

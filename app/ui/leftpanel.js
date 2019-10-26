@@ -1,6 +1,7 @@
 const m = require('mithril')
 const R = require('ramda')
 const State = require('../state.js')
+const Firebase = require('../util/firebase.js')
 
 const CommentBox = require('./commentbox.js')
 
@@ -9,11 +10,18 @@ var SelectedComment = {
         let c = State.comment()
         let [page, comment] = c.comment || [0,0]
         let {x,y,w,h} = c
-        const cds = m('div.coordinates', `${x},${y},${w},${h}`)
+        // const cds = m('div.coordinates', `${x},${y},${w},${h}`)
         return m('div',
-            page !==0 ? [m('h3', `Pg ${page}, remark ${comment}`),cds] : []
+            page !==0 ? [m('h3', `Pg ${page}, remark ${comment}`)] : []
         )
     }
+}
+
+const closeComment = async () => { 
+    await State.add_comment_to_thread('closed comment', '', { closed: true })
+}
+const reopenComment = async () => { 
+    await State.add_comment_to_thread('reopened comment', '', { closed: false })
 }
 
 
@@ -45,15 +53,19 @@ const g = c => `pg ${c.comment[0]}, remark ${c.comment[1]}: ${c.comments ? c.com
 
 var AllComments = {
     view: () => {
-        let comments = State.comments()
-        return m('div.all-comments',
-            R.map(c => m('div', [
-                m('a', {
-                    href: f(c),
-                    oncreate: m.route.link
-                }, g(c))
-            ]), R.filter(c => (c.w && c.h) || c.comments, comments))
-        )
+        const list = (comments) => R.map(c => m('div', [
+            m('a', {
+                href: f(c),
+                oncreate: m.route.link
+            }, g(c))
+        ]), R.filter(c => (c.w && c.h) || c.comments, comments))
+
+        const comments = State.comments()
+        return m('div.all-comments', [
+            ...list(R.filter(c => !c.closed, comments)),
+            m('h4', 'Closed comments'),
+            ...list(R.filter(c => c.closed, comments)),
+        ])
     }
 }
 
@@ -61,26 +73,33 @@ var showCommentBox = false
 
 var Comment = {
     view: function () {
-        let c = State.comment().comment
+        const c = State.comment()
+        const hasSelected = c.comment && c.comment[0] !== 0
         return m('div.comments', [
             m('h2', 'Comment Thread'),
-            m('div', m('a', {
+            hasSelected && m('div', m('a', {
                 oncreate: m.route.link,
                 href: `/documents/${State.document().slug}/${State.revision().revision}/${State.page()}/0,0`
             }, 'Back to comments overview')),
-            m('div', (c && c[0] !== 0) ?
+            m('div', hasSelected ?
                 [
                     m(SelectedComment),
-                    m('hr'),
                     m(Thread),
-                    m('hr'),
-                    showCommentBox ? m(CommentBox) : m('button', {onclick: () => { showCommentBox = !showCommentBox; m.redraw() }}, 'reply'),
-                    showCommentBox ? m('button', {onclick: () => {showCommentBox = false; m.redraw()}}, 'cancel') : m('.hide','')
+                    Firebase.user && [
+                        showCommentBox ? m(CommentBox) : m('button', {onclick: () => { showCommentBox = !showCommentBox; m.redraw() }}, 'reply'),
+                        showCommentBox 
+                            ? m('button', {onclick: () => {showCommentBox = false; m.redraw()}}, 'cancel') 
+                            : c.closed 
+                                ? m('button', {onclick: async() => { await reopenComment() }}, 'reopen')
+                                : m('button', {onclick: async() => { await closeComment() }}, 'close')
+                    ]
                 ]
                 : m('div',[
                     m('p', [
-                        'Click on a box to select a thread. Drag a new box on the page to create a new comment thread.',
-                        m('b', 'Note that login is required to add comments.')
+                        'Click on a box to select a thread. ',
+                        Firebase.user 
+                            ? 'Drag a new box on the page to create a new comment thread.'
+                            : m('b', 'Login to add comments.')
                     ]),
                     m(AllComments)
                 ])

@@ -136,12 +136,15 @@ const set_comment = (c) => {
     console.log('$($($($($($', comment(), current.comment, c)
 }
 
-const add_comment_to_thread = async (subject, markdown) => {
+const add_comment_to_thread = async (subject, markdown, opts = {}) => {
     const timestamp = new Date().toISOString()
     const author = Firebase.user.email
     const msg = {timestamp, author, subject, markdown}
     current.comment.comments = current.comment.comments || []
     current.comment.comments.push(msg)
+    if (opts.closed !== undefined) {
+        current.comment.closed = opts.closed
+    }
 
     // do firebase update
     const slug = current.document.slug
