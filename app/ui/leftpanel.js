@@ -68,7 +68,7 @@ var AllComments = {
             list(openComments),
             closedComments.length ? [
                 m('h4', 'Closed comments'),
-                list(),
+                list(closedComments),
             ] : []
         ])
     }
