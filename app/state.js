@@ -114,6 +114,7 @@ const set_document = async (slug) => {
     console.log(`$$$: SET DOCUMENT: ${slug}`)
     current.document = f('slug', slug, documents())
     loaded.comments = []
+    window.document.title = current.document.title + ' – Annotation Tool – Statebox';
 }
 
 const set_toc = (toc) => {
