@@ -9,6 +9,14 @@ const exampleDocuments = [
         title: 'The Mathematical Specification of the Statebox language'
     },
     {
+        slug: 'computational',
+        title: 'Computational Petri Nets: Adjunctions Considered Harmful'
+    },
+    {
+        slug: 'executions',
+        title: 'Executions in (Semi-)Integer Petri Nets are Compact Closed Categories'
+    },
+    {
         slug: 'bricks',
         title: 'Foundations of brick diagrams'
     }
@@ -43,9 +51,21 @@ const allRevisions = {
     }],
     bricks: [{
         timestamp: '2019-08-28T00:00:00+00:00',
-        revision: '1908.10660',
-        url: 'pdfs/bricks-1908.10660.pdf',
+        revision: 'v1',
+        url: 'https://arxiv.org/pdf/1908.10660.pdf',
         totalPages: 12
+    }],
+    computational: [{
+        timestamp: '2019-05-08T00:00:00+00:00',
+        revision: 'v2',
+        url: 'https://arxiv.org/pdf/1904.12974.pdf',
+        totalPages: 29
+    }],
+    executions: [{
+        timestamp: '2019-01-29T00:00:00+00:00',
+        revision: 'v3',
+        url: 'https://arxiv.org/pdf/1805.05988.pdf',
+        totalPages: 18
     }]
 }
 
