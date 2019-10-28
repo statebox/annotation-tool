@@ -19,6 +19,10 @@ const exampleDocuments = [
     {
         slug: 'bricks',
         title: 'Foundations of brick diagrams'
+    },
+    {
+        slug: 'zksnarks',
+        title: 'Mapping finite state machines to zk-SNARKS Using Category Theory'
     }
 ]
 
@@ -65,6 +69,12 @@ const allRevisions = {
         timestamp: '2019-01-29T00:00:00+00:00',
         revision: 'v3',
         url: 'https://arxiv.org/pdf/1805.05988.pdf',
+        totalPages: 18
+    }],
+    zksnarks: [{
+        timestamp: '2019-09-14T00:00:00+00:00',
+        revision: 'v2',
+        url: 'https://arxiv.org/pdf/1909.02893.pdf',
         totalPages: 18
     }]
 }
