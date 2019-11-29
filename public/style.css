@@ -202,6 +202,12 @@ footer {
     border: 1px solid #aaa;
     background: #fff;
     cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.1)
+}
+
+.documents-list div:hover {
+    box-shadow: 10px 10px 20px rgba(0,0,0,.15);
+    transform: translate(-4px,-4px);
 }
 
 .markdown-comment textarea {
