@@ -1,0 +1,8 @@
+# These rules will change if you change your site’s custom domains or HTTPS settings
+
+# Redirect domain aliases to primary domain
+https://pubs.statebox.org/* https://papers.statebox.org/:splat 301!
+https://archive.statebox.org/* https://papers.statebox.org/:splat 301!
+
+# Optional: Redirect default Netlify subdomain to primary domain
+https://reverent-wescoff-35c53a.netlify.com/* https://papers.statebox.org/:splat 301!
