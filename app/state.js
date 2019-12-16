@@ -23,6 +23,10 @@ const exampleDocuments = [
     {
         slug: 'zksnarks',
         title: 'Mapping finite state machines to zk-SNARKS Using Category Theory'
+    },
+    {
+        slug: 'idrisct',
+        title: 'Idris-ct:A Library to do Category Theory in Idris'
     }
 ]
 
@@ -76,6 +80,12 @@ const allRevisions = {
         revision: 'v2',
         url: 'https://arxiv.org/pdf/1909.02893.pdf',
         totalPages: 18
+    }],
+    idrisct: [{
+        timestamp: '2019-12-16T00:00:00+00:00',
+        revision: 'v1',
+        url: 'https://arxiv.org/pdf/1912.06191.pdf',
+        totalPages: 13
     }]
 }
 
