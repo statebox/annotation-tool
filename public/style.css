@@ -338,3 +338,8 @@ button {
     display: flex;
     align-items: center;
 }
+
+.documents-list-item code {
+    font-family: serif !important;
+    font-style: italic;
+}
